@@ -1,256 +1,144 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Добряк Игры — Бесплатные игры</title>
+  <title>Free Games Aggregator</title>
   <style>
     body {
-      margin: 0; 
-      background: #121212; 
-      color: #eee; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-left: 320px;
+      padding-right: 320px;
+      background: #121212;
+      color: #eee;
     }
     header {
-      background: #1f1f1f;
-      padding: 1rem;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #4a90e2;
+      padding: 10px 20px;
+      background: #1e1e1e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #language-switcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    .ads-left, .ads-right {
+      position: fixed;
+      top: 100px;
+      width: 300px;
+      height: 600px;
+      background: #222;
+      z-index: 1000;
+    }
+    .ads-left {
+      left: 0;
+    }
+    .ads-right {
+      right: 0;
     }
     main {
       max-width: 900px;
-      margin: 1rem auto;
-      padding: 0 1rem;
-    }
-    .filters {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-      justify-content: center;
-    }
-    select, input[type="search"] {
-      padding: 0.5rem;
-      font-size: 1rem;
+      margin: auto;
+      padding: 20px;
+      background: #1e1e1e;
       border-radius: 6px;
-      border: none;
-      outline: none;
-      background: #2c2c2c;
-      color: #eee;
     }
-    select:hover, input[type="search"]:hover {
-      background: #3d3d3d;
-    }
-    .games-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
-      gap: 1rem;
-    }
-    .game-card {
-      background: #1f1f1f;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 6px #222;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease;
-    }
-    .game-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 12px #4a90e2;
-    }
-    .game-card img {
-      width: 100%;
-      height: 140px;
-      object-fit: cover;
-    }
-    .game-content {
-      padding: 0.8rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .game-title {
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: #4a90e2;
-    }
-    .game-genre {
-      font-size: 0.9rem;
-      color: #bbb;
-      margin-bottom: 0.5rem;
-    }
-    .game-rating {
-      margin-bottom: 0.5rem;
-    }
-    .stars {
-      color: #f5c518;
+    input, button {
       font-size: 1rem;
+      padding: 8px;
+      margin: 4px;
+      border-radius: 4px;
+      border: none;
     }
-    .play-button {
-      text-align: center;
-      margin-top: auto;
+    input {
+      width: 60%;
     }
-    .play-button a {
-      display: inline-block;
-      background: #4a90e2;
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s ease;
-    }
-    .play-button a:hover {
-      background: #357ABD;
-    }
-    footer {
-      text-align: center;
-      margin: 2rem 0;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    @media (max-width: 600px) {
-      .filters {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    button {
+      cursor: pointer;
+      background: #3a3a3a;
+      color: #eee;
     }
   </style>
 </head>
 <body>
-  <header>Добряк Игры — Бесплатные игры</header>
-  <main>
-    <div class="filters">
-      <select id="genreFilter" aria-label="Фильтр по жанру">
-        <option value="all">Все жанры</option>
+  <header>
+    <h1 id="title">Free Games Aggregator</h1>
+
+    <div id="language-switcher">
+      <select id="lang-select" aria-label="Select language">
+        <option value="en">English</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
       </select>
-      <select id="sortFilter" aria-label="Сортировка">
-        <option value="popularity">По популярности</option>
-        <option value="release-date">По дате выхода</option>
-        <option value="alphabetical">По алфавиту</option>
-      </select>
-      <input type="search" id="searchInput" placeholder="Поиск по названию..." aria-label="Поиск игр" />
     </div>
-    <div id="gamesList" class="games-list">
-      <!-- Игры появятся здесь -->
+  </header>
+
+  <div class="ads-left">
+    <!-- Вставь сюда код Google AdSense левый блок -->
+  </div>
+  <div class="ads-right">
+    <!-- Вставь сюда код Google AdSense правый блок -->
+  </div>
+
+  <main>
+    <input type="text" id="search-input" placeholder="Search games..." />
+    <button id="sort-popularity">Sort by popularity</button>
+    <button id="sort-genre">Sort by genre</button>
+
+    <div id="games-list">
+      <!-- Здесь будет список игр -->
     </div>
   </main>
-  <footer>© 2025 Добряк Игры. Все права защищены.</footer>
 
   <script>
-    const genreFilter = document.getElementById('genreFilter');
-    const sortFilter = document.getElementById('sortFilter');
-    const searchInput = document.getElementById('searchInput');
-    const gamesList = document.getElementById('gamesList');
-
-    let gamesData = [];
-    let genresSet = new Set();
-
-    // Функция для создания звезд рейтинга
-    function createStars(rating) {
-      const fullStar = '★';
-      const emptyStar = '☆';
-      return fullStar.repeat(rating) + emptyStar.repeat(5 - rating);
-    }
-
-    // Заполнить жанры
-    function fillGenres() {
-      genresSet.forEach(genre => {
-        const option = document.createElement('option');
-        option.value = genre.toLowerCase();
-        option.textContent = genre;
-        genreFilter.appendChild(option);
-      });
-    }
-
-    // Отобразить игры с учётом фильтров и поиска
-    function displayGames() {
-      const genre = genreFilter.value;
-      const sort = sortFilter.value;
-      const search = searchInput.value.toLowerCase();
-
-      let filteredGames = gamesData.filter(game => {
-        const matchesGenre = (genre === 'all' || game.genre.toLowerCase() === genre);
-        const matchesSearch = game.title.toLowerCase().includes(search);
-        return matchesGenre && matchesSearch;
-      });
-
-      // Сортировка
-      filteredGames.sort((a, b) => {
-        if (sort === 'popularity') return b.popularity - a.popularity;
-        if (sort === 'release-date') return new Date(b.release_date) - new Date(a.release_date);
-        if (sort === 'alphabetical') return a.title.localeCompare(b.title);
-        return 0;
-      });
-
-      // Очистка списка
-      gamesList.innerHTML = '';
-
-      if (filteredGames.length === 0) {
-        gamesList.textContent = 'Игры не найдены.';
-        return;
+    const translations = {
+      en: {
+        title: "Free Games Aggregator",
+        searchPlaceholder: "Search games...",
+        sortByPopularity: "Sort by popularity",
+        sortByGenre: "Sort by genre",
+        noGamesFound: "No games found"
+      },
+      ru: {
+        title: "Агрегатор Бесплатных Игр",
+        searchPlaceholder: "Поиск игр...",
+        sortByPopularity: "Сортировать по популярности",
+        sortByGenre: "Сортировать по жанрам",
+        noGamesFound: "Игры не найдены"
+      },
+      es: {
+        title: "Agregador de Juegos Gratis",
+        searchPlaceholder: "Buscar juegos...",
+        sortByPopularity: "Ordenar por popularidad",
+        sortByGenre: "Ordenar por género",
+        noGamesFound: "No se encontraron juegos"
       }
+    };
 
-      // Добавление карточек игр
-      filteredGames.forEach(game => {
-        const card = document.createElement('div');
-        card.className = 'game-card';
-
-        card.innerHTML = `
-          <img src="${game.thumbnail}" alt="Изображение игры ${game.title}" />
-          <div class="game-content">
-            <div class="game-title">${game.title}</div>
-            <div class="game-genre">${game.genre}</div>
-            <div class="game-rating stars">${createStars(game.rating)}</div>
-            <div class="play-button">
-              <a href="${game.game_url}" target="_blank" rel="noopener">Играть</a>
-            </div>
-          </div>
-        `;
-
-        gamesList.appendChild(card);
-      });
+    function applyTranslations(lang) {
+      document.title = translations[lang].title;
+      document.getElementById("title").textContent = translations[lang].title;
+      document.getElementById("search-input").placeholder = translations[lang].searchPlaceholder;
+      document.getElementById("sort-popularity").textContent = translations[lang].sortByPopularity;
+      document.getElementById("sort-genre").textContent = translations[lang].sortByGenre;
+      // Можно здесь обновлять и другие тексты интерфейса, если будут
     }
 
-    // Загрузка данных из прокси API
-    async function loadGames() {
-      try {
-        const response = await fetch('/api/games');
-        if (!response.ok) throw new Error('Ошибка загрузки игр');
-        const games = await response.json();
+    document.getElementById("lang-select").addEventListener("change", e => {
+      const lang = e.target.value;
+      applyTranslations(lang);
+      localStorage.setItem("lang", lang);
+    });
 
-        // Преобразуем и сохраним данные
-        gamesData = games.map(g => {
-          genresSet.add(g.genre);
-          return {
-            title: g.title,
-            genre: g.genre,
-            thumbnail: g.thumbnail,
-            game_url: g.game_url,
-            popularity: g.popularity || 0,
-            release_date: g.release_date || '2000-01-01',
-            rating: Math.floor(Math.random() * 5) + 1, // случайный рейтинг 1-5
-          };
-        });
-
-        fillGenres();
-        displayGames();
-      } catch (e) {
-        gamesList.textContent = 'Ошибка загрузки игр.';
-        console.error(e);
-      }
-    }
-
-    genreFilter.addEventListener('change', displayGames);
-    sortFilter.addEventListener('change', displayGames);
-    searchInput.addEventListener('input', displayGames);
-
-    loadGames();
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedLang = localStorage.getItem("lang") || "en";
+      document.getElementById("lang-select").value = savedLang;
+      applyTranslations(savedLang);
+    });
   </script>
 </body>
 </html>
